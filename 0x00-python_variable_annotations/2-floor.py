@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import math
 
 
 def floor(n: float) -> int:
@@ -9,13 +10,6 @@ def floor(n: float) -> int:
         n (float): The input float.
 
     Returns:
-        int: The floor value of the input.
-
-    Example:
-        >>> floor(3.14)
-        3
+        int: The floor value of the input float.
     """
-    return int(n)
-
-
-print(floor(3.14))  # Output: 3
+    return math.floor(n)
