@@ -18,3 +18,5 @@ if __name__ == "__main__":
     result = to_str(3.14)
     print(result == '3.14')
     print({'n': float, 'return': str})
+
+# This file has now ended with a new line
