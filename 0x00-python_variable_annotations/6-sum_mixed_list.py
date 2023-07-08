@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+"""
+Module: 6-sum_mixed_list
+This module allows the importation of a function which takes a list
+of integers and floats and returns their sum as a float.
+"""
 from typing import List, Union
 
 
