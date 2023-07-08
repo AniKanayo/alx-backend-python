@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+"""
+Module: 100-safe_first_element
+This prove exports a function that safes first element
+"""
 from typing import Sequence, Any, Union
 
 
