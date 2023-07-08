@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+"""
+Module 2-floor
+This module provides a function that which takes a float n
+as argument and returns the floor of the float
+"""
 import math
 
 
