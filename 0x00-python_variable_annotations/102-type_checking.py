@@ -8,8 +8,8 @@ from typing import List, Tuple
 
 def zoom_array(lst: Tuple[int, ...], factor: int = 2) -> List[int]:
     """
-    Zoom in on the given array by repeating each element based on
-    the specified factor.
+    Zoom in on the given array by repeating each element based on the
+    specified factor.
 
     Args:
         lst (Tuple[int, ...]): The input array to zoom in on.
@@ -32,8 +32,8 @@ def zoom_array(lst: Tuple[int, ...], factor: int = 2) -> List[int]:
     return zoomed_in
 
 
-array: Tuple[int, int, int] = (12, 72, 91)
+# array: Tuple[int, int, int] = (12, 72, 91)
 
-zoom_2x: List[int] = zoom_array(array)
+# zoom_2x: List[int] = zoom_array(array)
 
-zoom_3x: List[int] = zoom_array(array, 3)
+# zoom_3x: List[int] = zoom_array(array, 3)
