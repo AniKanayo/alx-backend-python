@@ -5,10 +5,10 @@ Module
 """
 import asyncio
 import random
+from typing import AsyncGenerator
 
 
-async def async_generator():
-    numbers = []
+async def async_generator() -> AsyncGenerator[float, None]:
     for _ in range(10):
         """ Function """
         await asyncio.sleep(1)
