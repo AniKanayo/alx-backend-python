@@ -13,7 +13,8 @@ from typing import AsyncGenerator
 async def async_generator() -> AsyncGenerator[float, None]:
     """
     An asynchronous generator that yields random floating-point numbers
-    between 0 and 10.
+    between 0 and 10
+
     Returns:
         AsyncGenerator[float, None]:An async generator that produces random
         floating-point numbers.
