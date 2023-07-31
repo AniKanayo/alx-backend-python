@@ -3,7 +3,6 @@
 This module contains TestGithubOrgClient class for testing
 the GithubOrgClient class in the client module.
 """
-
 import unittest
 from unittest.mock import patch, Mock
 from parameterized import parameterized
@@ -20,8 +19,10 @@ class TestGithubOrgClient(unittest.TestCase):
     ])
     @patch('client.get_json', return_value={"payload": True})
     def test_org(self, test_org: str, mock_get_json: Mock) -> None:
-        """Test method for GithubOrgClient.org method"""
-
+        """
+        Test method for GithubOrgClient.org method.
+        This method tests that GithubOrgClient.org returns the correct value.
+        """
         # Initialize GithubOrgClient with test_org
         github_org_client = client.GithubOrgClient(test_org)
 
@@ -34,4 +35,4 @@ class TestGithubOrgClient(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main(verbosity=2)
+    unittest.main()
