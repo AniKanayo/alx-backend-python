@@ -13,32 +13,27 @@ from typing import Any
 class TestGithubOrgClient(unittest.TestCase):
     """Class for testing GithubOrgClient class."""
 
-    @patch('client.get_json', return_value=[{"name": "repo1"},
-           {"name": "repo2"}])
-    def test_public_repos(self, mock_get_json: Mock) -> None:
+    @patch('client.GithubOrgClient.org', new_callable=PropertyMock)
+    def test_public_repos_url(self, mock_org: PropertyMock) -> None:
         """
-        Test method for GithubOrgClient.public_repos method.
-        This method tests that GithubOrgClient.public_repos returns
-        the correct value.
+        Test method for GithubOrgClient._public_repos_url property.
+        This method tests that GithubOrgClient._public_repos_url
+        returns the correct value.
         """
-        with patch('client.GithubOrgClient._public_repos_url',
-                    new_callable=PropertyMock) as mock_public_repos_url:
-            # Setup the mock property
-            mock_public_repos_url.return_value = "https://api.github.com/"
-           "users/google/repos"
+        # Setup the mock property
+        mock_org.return_value = {
+            "login": "google",
+            "id": 1342004,
+            "public_repos": 5,
+            "repos_url": "https://api.github.com/users/google/repos"
+        }
 
-            # Initialize GithubOrgClient with test_org
-            github_org_client = client.GithubOrgClient("google")
+        # Initialize GithubOrgClient with test_org
+        github_org_client = client.GithubOrgClient("google")
 
-            # Test that GithubOrgClient.public_repos returns the correct value
-            expected_repos = ["repo1", "repo2"]
-            self.assertEqual(github_org_client.public_repos, expected_repos)
-
-            # Test that the mocked property and the mocked get_json was
-            # called once
-            mock_public_repos_url.assert_called_once()
-            mock_get_json.assert_called_once()
+        # Test that GithubOrgClient._public_repos_url returns the correct value
+        expected_url = "https://api.github.com/users/google/repos"
+        self.assertEqual(github_org_client._public_repos_url, expected_url)
 
 
 if __name__ == '__main__':
-    unittest.main()
