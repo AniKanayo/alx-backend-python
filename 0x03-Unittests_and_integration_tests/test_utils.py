@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-This module contains TestAccessNestedMap class
+This module contains TestAccessNestedMap class as required
 """
 
 import unittest
