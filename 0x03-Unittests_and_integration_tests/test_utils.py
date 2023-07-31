@@ -1,16 +1,19 @@
 #!/usr/bin/env python3
 """
 This module contains TestAccessNestedMap and TestGetJson classes
+for testing the functions in the utils module.
 """
+
 import unittest
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 from parameterized import parameterized
 import utils
+from typing import Any, Dict, Tuple
 
 
 class TestAccessNestedMap(unittest.TestCase):
     """Class for testing utils.access_nested_map function"""
-
+    
     @parameterized.expand([
         ({"a": 1}, ("a",), 1),
         ({"a": {"b": 2}}, ("a",), {"b": 2}),
@@ -23,6 +26,17 @@ class TestAccessNestedMap(unittest.TestCase):
         """
         self.assertEqual(utils.access_nested_map(nested_map, path), expected)
 
+    @parameterized.expand([
+        ({}, ("a",)),
+        ({"a": 1}, ("a", "b"))
+    ])
+    def test_access_nested_map_exception(self, nested_map:
+                                         Dict[Any, Any], path: Tuple[Any]) -> None:
+        """Test method for utils.access_nested_map function exception"""
+        with self.assertRaises(KeyError) as cm:
+            utils.access_nested_map(nested_map, path)
+        self.assertEqual(cm.exception.args[0], path[-1])
+
 
 class TestGetJson(unittest.TestCase):
     """Class for testing utils.get_json function"""
@@ -32,17 +46,22 @@ class TestGetJson(unittest.TestCase):
         ("http://holberton.io", {"payload": False})
     ])
     @patch('requests.get')
-    def test_get_json(self, test_url: str, test_payload:
-                      Dict[str, bool], mock_get: Mock) -> None:
-        """
-        Test method for utils.get_json function
-        """
+    def test_get_json(self, test_url: str, test_payload: Dict[str, Any],
+                      mock_get: Mock) -> None:
+        """Test method for utils.get_json function"""
+
+        # Create a new Mock object with a json method that returns test_payload
         mock_get.return_value = Mock(ok=True)
         mock_get.return_value.json.return_value = test_payload
 
+        # Call the function with the test_url
         response = utils.get_json(test_url)
 
+        # Test that the mocked get method was called exactly once
+        # with test_url as argument
         mock_get.assert_called_once_with(test_url)
+
+        # Test that the output of get_json is equal to test_payload
         self.assertEqual(response, test_payload)
 
 
