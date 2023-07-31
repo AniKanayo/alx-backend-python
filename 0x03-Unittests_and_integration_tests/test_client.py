@@ -29,8 +29,8 @@ class TestGithubOrgClient(unittest.TestCase):
         self.assertEqual(github_org_client.org, {"payload": True})
 
         # Test that get_json was called exactly once with the correct argument
-        mock_get_json.assert_called_once_with
-        (f"https://api.github.com/orgs/{test_org}")
+        mock_get_json.
+        assert_called_once_with(f"https://api.github.com/orgs/{test_org}")
 
 
 if __name__ == '__main__':
