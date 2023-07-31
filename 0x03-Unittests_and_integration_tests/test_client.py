@@ -4,7 +4,7 @@ This module contains TestGithubOrgClient class for testing
 the GithubOrgClient class in the client module.
 """
 import unittest
-from unittest.mock import patch, Mock
+from unittest.mock import patch, PropertyMock
 from parameterized import parameterized
 import client
 from typing import Any
@@ -13,25 +13,27 @@ from typing import Any
 class TestGithubOrgClient(unittest.TestCase):
     """Class for testing GithubOrgClient class."""
 
-    @parameterized.expand([
-        ("google"),
-        ("abc")
-    ])
-    @patch('client.get_json', return_value={"payload": True})
-    def test_org(self, test_org: str, mock_get_json: Mock) -> None:
+    @patch('client.GithubOrgClient.org', new_callable=PropertyMock)
+    def test_public_repos_url(self, mock_org: PropertyMock) -> None:
         """
-        Test method for GithubOrgClient.org method.
-        This method tests that GithubOrgClient.org returns the correct value.
+        Test method for GithubOrgClient._public_repos_url property.
+        This method tests that GithubOrgClient._public_repos_url
+        returns the correct value.
         """
+        # Setup the mock property
+        mock_org.return_value = {
+            "login": "google",
+            "id": 1342004,
+            "public_repos": 5,
+            "repos_url": "https://api.github.com/users/google/repos"
+        }
+
         # Initialize GithubOrgClient with test_org
-        github_org_client = client.GithubOrgClient(test_org)
+        github_org_client = client.GithubOrgClient("google")
 
-        # Test that GithubOrgClient.org returns the correct value
-        self.assertEqual(github_org_client.org, {"payload": True})
-
-        # Test that get_json was called exactly once with the correct argument
-        url = f"https://api.github.com/orgs/{test_org}"
-        mock_get_json.assert_called_once_with(url)
+        # Test that GithubOrgClient._public_repos_url returns the correct value
+        expected_url = "https://api.github.com/users/google/repos"
+        self.assertEqual(github_org_client._public_repos_url, expected_url)
 
 
 if __name__ == '__main__':
