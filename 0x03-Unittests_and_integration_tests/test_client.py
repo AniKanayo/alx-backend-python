@@ -1,39 +1,37 @@
 #!/usr/bin/env python3
-"""
-This module contains TestGithubOrgClient class for testing
-the GithubOrgClient class in the client module.
-"""
+
 import unittest
-from unittest.mock import patch, PropertyMock
+from unittest.mock import patch
 from parameterized import parameterized
-import client
-from typing import Any
+from client import GithubOrgClient
 
 
 class TestGithubOrgClient(unittest.TestCase):
-    """Class for testing GithubOrgClient class."""
 
-    @patch('client.GithubOrgClient.org', new_callable=PropertyMock)
-    def test_public_repos_url(self, mock_org: PropertyMock) -> None:
+    @parameterized.expand([
+        ("google",),
+        ("abc",),
+    ])
+    @patch('client.requests.get')
+    def test_org(self, org_name, mock_get):
         """
-        Test method for GithubOrgClient._public_repos_url property.
-        This method tests that GithubOrgClient._public_repos_url
-        returns the correct value.
+        Test the org() method of GithubOrgClient.
+
+        :param org_name: The name of the GitHub organization to test.
+        :param mock_get: Mock object of the requests.get method.
         """
-        # Setup the mock property
-        mock_org.return_value = {
-            "login": "google",
-            "id": 1342004,
-            "public_repos": 5,
-            "repos_url": "https://api.github.com/users/google/repos"
-        }
+        # Arrange
+        org_url = f"https://api.github.com/orgs/{org_name}"
+        expected_response = {"name": org_name, "url": org_url}
+        instance = GithubOrgClient(org_name)
+        mock_get.return_value.status_code = 200
+        mock_get.return_value.json.return_value = expected_response
 
-        # Initialize GithubOrgClient with test_org
-        github_org_client = client.GithubOrgClient("google")
+        # Act
+        result = instance.org()
 
-        # Test that GithubOrgClient._public_repos_url returns the correct value
-        expected_url = "https://api.github.com/users/google/repos"
-        self.assertEqual(github_org_client._public_repos_url, expected_url)
+        # Assert
+        self.assertEqual(result, expected_response)
 
 
 if __name__ == '__main__':
